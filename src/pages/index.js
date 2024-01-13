@@ -6,7 +6,7 @@ export default function Home() {
     <main className={`flex container max-w-screen-xl flex-col`}>
       <section className="flex flex-row h-screen justify-between items-center">
         <div className="max-w-[560px]">
-          <h1 className={`${kronaOne.className} mb-8`}>
+          <h1 className={`${kronaOne.className} mb-8 leading-10`}>
             <span className="text-white text-5xl font-normal">
               Get Your Self A{" "}
             </span>
@@ -23,7 +23,7 @@ export default function Home() {
             Concert Ticket Where Music Meets Compassion, and Every Note
             Resonates for a Better Tomorrow!
           </p>
-          <button className="p-8">BUY NOW</button>
+          <button className="p-2 px-4 bg-violet-500 my-8 rounded-full">BUY NOW</button>
         </div>
         <div>
           <Image
@@ -61,6 +61,7 @@ export default function Home() {
             button below!
           </p>
         </div>
+        <button className="p-3 px-7 bg-violet-500 rounded-full">BUY NOW</button>
       </section>
     </main>
   );
