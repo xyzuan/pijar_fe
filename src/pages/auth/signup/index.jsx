@@ -16,7 +16,7 @@ function index() {
         </div>
       </div>
       <div className="w-1/2 flex flex-col justify-center items-center bg-[#21211E]">
-        <h1 className="text-3xl font-semibold">Log in</h1>
+        <h1 className="text-3xl font-semibold">Sign up</h1>
         <div className="flex flex-col p-4">
           <label>Email</label>
           <input
@@ -37,9 +37,19 @@ function index() {
             className="w-72 h-12 bg-[#4D4D4B] rounded-lg border-2 border-[#8E8E8E] pl-4"
           />
         </div>
+        <div className="flex flex-col p-4">
+          <label>Re-Enter Password</label>
+          <input
+            type="text"
+            name="password"
+            id="password"
+            placeholder="re-enter your password"
+            className="w-72 h-12 bg-[#4D4D4B] rounded-lg border-2 border-[#8E8E8E] pl-4"
+          />
+        </div>
         <div className="p-4">
           <button className="w-32 h-10 bg-[#2A2A27] rounded-2xl shadow-md shadow-[#191917]">
-            Log In
+            Sign Up
           </button>
         </div>
       </div>
