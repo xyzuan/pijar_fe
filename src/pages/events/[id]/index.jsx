@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useAddTicketsMutation } from "@/redux/api/ticketsApi";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import PaymentModal from "./PaymentModal";
 
 export default function Home() {
@@ -57,7 +57,6 @@ export default function Home() {
           <>
             <div className="h-[430px] overflow-hidden rounded-2xl">
               <Image
-                className=" brightness-75"
                 width={0}
                 height={0}
                 sizes="100vw"

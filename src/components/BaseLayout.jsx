@@ -7,7 +7,7 @@ function BaseLayout({ children }) {
   return (
     <div className={`${poppins.className}`}>
       <Header />
-      {children}
+      <div className="my-12">{children}</div>
       <Footer />
     </div>
   );

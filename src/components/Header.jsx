@@ -5,8 +5,8 @@ import Link from "next/link";
 
 function Header() {
   return (
-    <header>
-      <div className="flex container max-w-screen-xl justify-between items-center">
+    <nav className="bg-[#09090b] bg-opacity-55 fixed w-full z-20 top-0 left-0 backdrop-blur-2xl">
+      <div className="h-[82px] flex container max-w-screen-xl justify-between items-center mx-auto">
         <Link href="/">
           <Logo />
         </Link>
@@ -22,7 +22,7 @@ function Header() {
           </ul>
         </nav>
       </div>
-    </header>
+    </nav>
   );
 }
 
