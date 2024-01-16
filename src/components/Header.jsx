@@ -1,19 +1,24 @@
 import React from "react";
 import Logo from "./Logo";
 import { kronaOne } from "@/constant/fonts";
+import Link from "next/link";
 
 function Header() {
   return (
     <header>
       <div className="flex container max-w-screen-xl justify-between items-center">
-        <div>
+        <Link href="/">
           <Logo />
-        </div>
+        </Link>
         <nav>
           <ul className={`${kronaOne.className} flex flex-row gap-8`}>
-            <li>Home</li>
+            <Link href="/">
+              <li>Home</li>
+            </Link>
             <li>About Us</li>
-            <li>Ticket</li>
+            <Link href="/events">
+              <li>Events</li>
+            </Link>
           </ul>
         </nav>
       </div>

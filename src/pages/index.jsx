@@ -1,4 +1,4 @@
-import { kronaOne, poppins } from "@/constant/fonts";
+import { kronaOne } from "@/constant/fonts";
 import Image from "next/image";
 
 export default function Home() {
@@ -23,7 +23,9 @@ export default function Home() {
             Concert Ticket Where Music Meets Compassion, and Every Note
             Resonates for a Better Tomorrow!
           </p>
-          <button className="p-2 px-4 bg-violet-500 my-8 rounded-full">BUY NOW</button>
+          <button className="p-2 px-4 bg-violet-500 my-8 rounded-full">
+            BUY NOW
+          </button>
         </div>
         <div>
           <Image
