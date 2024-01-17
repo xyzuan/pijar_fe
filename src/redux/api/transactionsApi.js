@@ -7,40 +7,40 @@ export const transactionsApi = baseApi
     endpoints(builder) {
       return {
         getAllTransactions: builder.query({
-          headers: getUserAuthHeaderApi(),
           query: () => ({
             url: `/transactions`,
             method: "GET",
+            headers: getUserAuthHeaderApi(),
           }),
         }),
         getTransactionsById: builder.query({
-          headers: getUserAuthHeaderApi(),
           query: ({ id }) => ({
             url: `/transactions/${id}`,
             method: "GET",
+            headers: getUserAuthHeaderApi(),
           }),
         }),
         addTransactions: builder.mutation({
-          headers: getUserAuthHeaderApi(),
           query: ({ data }) => ({
             url: `/transactions`,
             method: "POST",
             body: {},
+            headers: getUserAuthHeaderApi(),
           }),
         }),
         updateTransactions: builder.mutation({
-          headers: getUserAuthHeaderApi(),
           query: ({ id, data }) => ({
             url: `/transactions/${id}`,
             method: "PUT",
             body: {},
+            headers: getUserAuthHeaderApi(),
           }),
         }),
         deleteTransactions: builder.mutation({
-          headers: getUserAuthHeaderApi(),
           query: ({ id }) => ({
             url: `/transactions/${id}`,
             method: "DELETE",
+            headers: getUserAuthHeaderApi(),
           }),
         }),
       };
