@@ -4,7 +4,9 @@ import Image from "next/image";
 export default function Home() {
   return (
     <main className={`flex container max-w-screen-xl flex-col`}>
-      <section className="flex flex-row h-screen justify-between items-center">
+      <section
+        className={`flex md:flex-row flex-col min-h-screen justify-between items-center md:mt-0 mt-12`}
+      >
         <div className="max-w-[560px]">
           <h1 className={`${kronaOne.className} mb-8 leading-10`}>
             <span className="text-white text-5xl font-normal">
@@ -36,14 +38,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="flex flex-col items-center">
+      <section className="flex flex-col items-center mt-32 md:mt-0">
         <div>
           <h1 className={`${kronaOne.className} mb-8 text-5xl`}>
             Did You Know That
             <span className="rotate-[2deg]">?</span>
           </h1>
         </div>
-        <div className="flex flex-row justify-between items-center gap-12">
+        <div className="flex md:flex-row flex-col justify-between items-center gap-12">
           <Image
             width={497}
             height={497}
@@ -63,7 +65,9 @@ export default function Home() {
             button below!
           </p>
         </div>
-        <button className="p-3 px-7 bg-violet-500 rounded-full">BUY NOW</button>
+        <button className="p-3 px-7 bg-violet-500 rounded-full mt-6 md:mt-0">
+          BUY NOW
+        </button>
       </section>
     </main>
   );

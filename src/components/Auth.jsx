@@ -21,7 +21,6 @@ import {
   DrawerTitle,
   DrawerTrigger,
 } from "./ui/drawer";
-import useIsMobile from "@/utils/useIsMobile.hook";
 import { Input } from "./ui/input";
 import { useForm } from "react-hook-form";
 import {
@@ -51,6 +50,7 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { useGetMeQuery } from "@/redux/api/meApi";
+import useIsMobile from "@/utils/useIsMobile.hook";
 
 const cookies = new Cookies();
 
@@ -77,7 +77,7 @@ function Auth() {
       <Dialog open={open} onOpenChange={setOpen}>
         <DialogTrigger asChild>
           {!isLogged ? (
-            <Button>Sign In</Button>
+            <Button className="md:w-fit w-full">Sign In</Button>
           ) : (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
