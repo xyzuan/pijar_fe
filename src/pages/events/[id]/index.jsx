@@ -20,11 +20,13 @@ import { Input } from "@/components/ui/input";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useGetMeQuery } from "@/redux/api/meApi";
-import { useEffect, useState } from "react";
+import useIsLogged from "@/utils/useIsLogged.hook";
+import Auth from "@/components/Auth";
 
 export default function Home() {
   const router = useRouter();
   const { data } = useGetMeQuery();
+  const isLogged = useIsLogged();
 
   const { id } = router.query;
 
@@ -111,80 +113,90 @@ export default function Home() {
                 <p className="text-neutral-200">{parse(events?.description)}</p>
               </div>
               <div className="w-[40%] h-fit p-8">
-                <h1 className="font-bold text-2xl mb-6">Reservation</h1>
-
-                <Form {...form}>
-                  <form
-                    onSubmit={form.handleSubmit(onSubmit)}
-                    className="space-y-8"
-                  >
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Full Name</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter your full name"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="gender"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Gender</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Select your Gender"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="phone"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Phone Number</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter your active phone number"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="charity"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormLabel>Charity</FormLabel>
-                          <FormControl>
-                            <Input
-                              placeholder="Enter your charity value"
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <Button type="submit">RSVP Now</Button>
-                  </form>
-                </Form>
+                {isLogged ? (
+                  <>
+                    <h1 className="font-bold text-2xl mb-6">Reservation</h1>
+                    <Form {...form}>
+                      <form
+                        onSubmit={form.handleSubmit(onSubmit)}
+                        className="space-y-8"
+                      >
+                        <FormField
+                          control={form.control}
+                          name="name"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Full Name</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Enter your full name"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="gender"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Gender</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Select your Gender"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="phone"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Phone Number</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Enter your active phone number"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <FormField
+                          control={form.control}
+                          name="charity"
+                          render={({ field }) => (
+                            <FormItem>
+                              <FormLabel>Charity</FormLabel>
+                              <FormControl>
+                                <Input
+                                  placeholder="Enter your charity value"
+                                  {...field}
+                                />
+                              </FormControl>
+                              <FormMessage />
+                            </FormItem>
+                          )}
+                        />
+                        <Button type="submit">RSVP Now</Button>
+                      </form>
+                    </Form>
+                  </>
+                ) : (
+                  <>
+                    <h1 className="font-bold text-2xl mb-6">
+                      Login first to RSVP this events
+                    </h1>
+                    <Auth />
+                  </>
+                )}
               </div>
             </div>
           </>
