@@ -22,46 +22,52 @@ export default function Home() {
 
   return (
     <main className={`flex container max-w-screen-xl flex-col`}>
-      <section className="h-screen flex md:flex-row flex-col-reverse mt-12">
-        <div className="w-[70vw]">
-          <h1 className=" font-bold text-6xl mb-8">Event</h1>
-          {events?.data?.map((v, i) => {
-            return (
-              <div
-                onClick={() => router.push(`/events/${v.id}`)}
-                className="bg-neutral-900 w-[320px] overflow-hidden rounded-xl cursor-pointer"
-              >
-                <div className="w-full h-[128px] overflow-hidden">
-                  <Image
-                    width={0}
-                    height={0}
-                    sizes="100vw"
-                    style={{ width: "100%", height: "auto" }}
-                    src={v.img}
-                    alt={v.name}
-                  />
-                </div>
+      <section className="min-h-screen flex md:flex-row flex-col-reverse mt-12">
+        <div className="md:w-[75vw] w-full">
+          <h1 className=" font-bold text-6xl mb-8 mt-6 md:mt-0">Event</h1>
+          <div className="grid grid-cols-1 lg:grid-cols-3 md:grid-cols-2 gap-6">
+            {events?.data?.map((v, i) => {
+              return (
+                <div
+                  onClick={() => router.push(`/events/${v.id}`)}
+                  className="bg-neutral-900 md:w-[262px] w-full overflow-hidden rounded-xl cursor-pointer"
+                >
+                  <div className="w-full h-[162px] overflow-hidden">
+                    {v?.img ? (
+                      <Image
+                        width={0}
+                        height={0}
+                        sizes="100vw"
+                        style={{ width: "100%", height: "auto" }}
+                        src={v.img}
+                        alt={v.name}
+                      />
+                    ) : (
+                      <h1>No Image</h1>
+                    )}
+                  </div>
 
-                <div className="p-6">
-                  <h1 className="font-medium">{v.name}</h1>
-                  <div className="flex justify-between mt-2">
-                    <h1 className="text-neutral-200 text-sm">
-                      {v.location}
-                      <br />
-                      {v.capacity}
-                    </h1>
-                    <h1 className="text-neutral-200 text-sm text-end">
-                      {moment(v.held_date).format("MMMM Do YYYY")}
-                      <br />
-                      {moment(v.held_date).format("h:mm:ss a")}
-                    </h1>
+                  <div className="p-6">
+                    <h1 className="font-medium">{v.name}</h1>
+                    <div className="flex justify-between mt-2">
+                      <h1 className="text-neutral-200 text-sm">
+                        {v.location}
+                        <br />
+                        {v.capacity}
+                      </h1>
+                      <h1 className="text-neutral-200 text-sm text-end">
+                        {moment(v.held_date).format("MMMM Do YYYY")}
+                        <br />
+                        {moment(v.held_date).format("h:mm:ss a")}
+                      </h1>
+                    </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
+              );
+            })}
+          </div>
         </div>
-        <div className="md:w-[30vw] w-full">
+        <div className="md:w-[25vw] w-full">
           <h1 className="font-bold text-2xl mb-6">My Ticket</h1>
           {tickets?.map((v, i) => {
             return (

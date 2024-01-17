@@ -107,12 +107,12 @@ export default function Home() {
               />
             </div>
 
-            <div className="flex my-12 mx-6">
-              <div className="w-[60%] border-r pr-8">
+            <div className="flex my-12 mx-6 md:flex-row flex-col">
+              <div className="md:w-[60%] w-full md:border-r md:border-b-0 border-b md:pr-8 md:pb-0 pb-16">
                 <h1 className="font-bold text-4xl mb-6">{events?.name}</h1>
                 <p className="text-neutral-200">{parse(events?.description)}</p>
               </div>
-              <div className="w-[40%] h-fit p-8">
+              <div className="md:w-[40%] w-full h-fit md:p-8 md:pt-0 pt-16">
                 {isLogged ? (
                   <>
                     <h1 className="font-bold text-2xl mb-6">Reservation</h1>
