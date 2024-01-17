@@ -4,23 +4,82 @@ import { useGetEventsByIdQuery } from "@/redux/api/eventsApi";
 import Image from "next/image";
 import { useRouter } from "next/router";
 import parse from "html-react-parser";
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogFooter,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { useAddTicketsMutation } from "@/redux/api/ticketsApi";
-import { useState } from "react";
-import PaymentModal from "./PaymentModal";
+import { toast } from "sonner";
+import * as z from "zod";
+import {
+  Form,
+  FormControl,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage,
+} from "@/components/ui/form";
+import { Input } from "@/components/ui/input";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useGetMeQuery } from "@/redux/api/meApi";
+import { useEffect, useState } from "react";
 
 export default function Home() {
   const router = useRouter();
+  const { data } = useGetMeQuery();
+
   const { id } = router.query;
+
+  const formSchema = z.object({
+    name: z.string(),
+    gender: z.string(),
+    phone: z.string(),
+    charity: z.string(),
+  });
+
+  const form = useForm({
+    resolver: zodResolver(formSchema),
+    defaultValues: {
+      name: "",
+      gender: "",
+      phone: "",
+      charity: "",
+    },
+  });
+
+  function onSubmit(values) {
+    requestTicket({
+      data: {
+        event_id: id,
+        holder_name: values.name,
+        holder_gender: values.gender,
+        holder_email: data?.data?.email,
+        holder_phone: values.phone,
+        purchase_amount: values.charity,
+      },
+    })
+      .then(async (res) => {
+        console.log(res);
+        if (res?.error?.data?.message) {
+          toast.error(
+            `Error Status ${res?.error?.status}: ${res?.error?.data?.message}`
+          );
+        } else {
+          const promise = () =>
+            new Promise((resolve) =>
+              setTimeout(() => resolve({ name: "Sonner" }), 2000)
+            );
+
+          toast.promise(promise, {
+            loading: "Processing midtrans payment...",
+            success: () => {
+              window.open(res?.data?.redirect_url, "_self");
+              return `${res?.data?.token} was processed`;
+            },
+            error: "Error",
+          });
+        }
+      })
+      .finally(() => {});
+  }
 
   const {
     data: events,
@@ -29,26 +88,6 @@ export default function Home() {
   } = useGetEventsByIdQuery({ id });
 
   const [requestTicket] = useAddTicketsMutation();
-  const [transactionModal, setTransactionModal] = useState(false);
-  const [transactionData, setTransactionData] = useState();
-
-  const handleRequestTicket = async () => {
-    requestTicket({
-      data: {
-        event_id: id,
-        holder_name: "Jody Yuantoro",
-        holder_gender: "male",
-        holder_email: "xyzuannihboss@gmail.com",
-        holder_phone: "085155027511",
-        purchase_amount: "100000",
-      },
-    })
-      .then((res) => {
-        setTransactionData(res.data.redirect_url);
-        setTransactionModal(true);
-      })
-      .finally(() => {});
-  };
 
   return (
     <main className={`flex container max-w-screen-xl flex-col`}>
@@ -67,83 +106,87 @@ export default function Home() {
             </div>
 
             <div className="flex my-12 mx-6">
-              <div className="w-[60%]">
+              <div className="w-[60%] border-r pr-8">
                 <h1 className="font-bold text-4xl mb-6">{events?.name}</h1>
                 <p className="text-neutral-200">{parse(events?.description)}</p>
               </div>
-              <div className="w-[40%] h-fit p-8 m-8 border border-neutral-600 rounded-2xl">
+              <div className="w-[40%] h-fit p-8">
                 <h1 className="font-bold text-2xl mb-6">Reservation</h1>
-                <div className="flex flex-col gap-6">
-                  <div className="flex flex-col">
-                    <label className="mb-2">Name</label>
-                    <input
+
+                <Form {...form}>
+                  <form
+                    onSubmit={form.handleSubmit(onSubmit)}
+                    className="space-y-8"
+                  >
+                    <FormField
+                      control={form.control}
                       name="name"
-                      className="p-3 rounded-md bg-neutral-800"
-                      placeholder="Input Full Name"
-                      type="text"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Full Name</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter your full name"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="mb-2">Gender</label>
-                    <input
+                    <FormField
+                      control={form.control}
                       name="gender"
-                      className="p-3 rounded-md bg-neutral-800"
-                      placeholder="Choose Gender"
-                      type="text"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Gender</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Select your Gender"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
-                  <div className="flex flex-col">
-                    <label className="mb-2">Phone</label>
-                    <input
+                    <FormField
+                      control={form.control}
                       name="phone"
-                      className="p-3 rounded-md bg-neutral-800"
-                      placeholder="Input Phone Number"
-                      type="phone"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Phone Number</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter your active phone number"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
                     />
-                  </div>
-                  <Dialog>
-                    <DialogTrigger asChild>
-                      <Button>RSVP Now</Button>
-                    </DialogTrigger>
-                    <DialogContent className="sm:max-w-[425px]">
-                      <DialogHeader>
-                        <DialogTitle>Buy Your Ticket</DialogTitle>
-                        <DialogDescription>
-                          Please Type Amount of Money do you want to Donate.
-                        </DialogDescription>
-                      </DialogHeader>
-                      <div className="grid gap-4 py-4 mx-3">
-                        <div className="flex">
-                          <h1 className="text-start flex flex-grow">
-                            Full Name
-                          </h1>
-                          <p className="text-neutral-400">Jody Yuantoro</p>
-                        </div>
-                        <div className="flex">
-                          <h1 className="text-start flex flex-grow">Gender</h1>
-                          <p className="text-neutral-400">Male</p>
-                        </div>
-                        <div className="flex">
-                          <h1 className="text-start flex flex-grow">Phone</h1>
-                          <p className="text-neutral-400">+6285155027511</p>
-                        </div>
-                      </div>
-                      <DialogFooter>
-                        <Button
-                          onClick={() => handleRequestTicket()}
-                          type="submit"
-                        >
-                          Save changes
-                        </Button>
-                      </DialogFooter>
-                    </DialogContent>
-                  </Dialog>
-                </div>
+                    <FormField
+                      control={form.control}
+                      name="charity"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Charity</FormLabel>
+                          <FormControl>
+                            <Input
+                              placeholder="Enter your charity value"
+                              {...field}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <Button type="submit">RSVP Now</Button>
+                  </form>
+                </Form>
               </div>
             </div>
-            {transactionModal && (
-              <PaymentModal open={transactionModal} data={transactionData} />
-            )}
           </>
         ) : (
           <></>

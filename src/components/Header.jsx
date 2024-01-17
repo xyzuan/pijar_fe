@@ -1,7 +1,8 @@
-import React from "react";
 import Logo from "./Logo";
-import { kronaOne } from "@/constant/fonts";
 import Link from "next/link";
+import React from "react";
+import { kronaOne } from "@/constant/fonts";
+import Auth from "./Auth";
 
 function Header() {
   return (
@@ -11,7 +12,9 @@ function Header() {
           <Logo />
         </Link>
         <nav>
-          <ul className={`${kronaOne.className} flex flex-row gap-8`}>
+          <ul
+            className={`${kronaOne.className} flex flex-row gap-8 items-center`}
+          >
             <Link href="/">
               <li>Home</li>
             </Link>
@@ -19,6 +22,7 @@ function Header() {
             <Link href="/events">
               <li>Events</li>
             </Link>
+            <Auth />
           </ul>
         </nav>
       </div>
