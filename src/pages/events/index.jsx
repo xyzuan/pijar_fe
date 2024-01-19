@@ -6,6 +6,8 @@ import moment from "moment";
 import { useRouter } from "next/router";
 import { useGetAllTicketsQuery } from "@/redux/api/ticketsApi";
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
+import useIsLogged from "@/utils/useIsLogged.hook";
+import Auth from "@/components/Auth";
 
 export default function Home() {
   const router = useRouter();
@@ -17,8 +19,7 @@ export default function Home() {
   } = useGetAllEventsQuery();
 
   const { data: tickets } = useGetAllTicketsQuery();
-
-  console.log(tickets);
+  const isLogged = useIsLogged();
 
   return (
     <main className={`flex container max-w-screen-xl flex-col`}>
@@ -69,26 +70,37 @@ export default function Home() {
         </div>
         <div className="md:w-[25vw] w-full">
           <h1 className="font-bold text-2xl mb-6">My Ticket</h1>
-          {tickets?.map((v, i) => {
-            return (
-              <Card
-                className="cursor-pointer mb-3"
-                onClick={() =>
-                  router.push(
-                    `/tickets?id=${v.event_id}&tid=${v.id}&trxId=${v.transaction_id}`
-                  )
-                }
-              >
-                <CardHeader>
-                  <p className="text-xs text-neutral-200">{v?.code}</p>
-                  <h1 className="text-lg text-neutral-200">{v?.code}</h1>
-                </CardHeader>
-                <CardContent>
-                  <p>{v?.holder_name}</p>
-                </CardContent>
-              </Card>
-            );
-          })}
+          {isLogged ? (
+            <>
+              {tickets?.map((v, i) => {
+                return (
+                  <Card
+                    className="cursor-pointer mb-3"
+                    onClick={() =>
+                      router.push(
+                        `/tickets?id=${v.event_id}&tid=${v.id}&trxId=${v.transaction_id}`
+                      )
+                    }
+                  >
+                    <CardHeader>
+                      <p className="text-xs text-neutral-200">{v?.code}</p>
+                      <h1 className="text-lg text-neutral-200">{v?.code}</h1>
+                    </CardHeader>
+                    <CardContent>
+                      <p>{v?.holder_name}</p>
+                    </CardContent>
+                  </Card>
+                );
+              })}
+            </>
+          ) : (
+            <>
+              <h1 className="font-bold text-2xl mb-6">
+                Login first to See your ticket
+              </h1>
+              <Auth />
+            </>
+          )}
         </div>
       </section>
     </main>
