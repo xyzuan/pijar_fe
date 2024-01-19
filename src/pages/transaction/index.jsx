@@ -19,7 +19,7 @@ function index() {
       <section className="min-h-[80vh] mt-12 flex md:flex-row flex-col justify-center items-center">
         <Card className="h-fit md:w-[30vw] w-full">
           <CardContent className="flex flex-col justify-center items-center p-8 gap-3">
-            {trxData?.status !== "success" ? (
+            {trxData?.status !== "settlement" ? (
               <LucideHelpCircle className="w-[72px] h-[72px]" />
             ) : (
               <LucideCheckCircle className="w-[72px] h-[72px]" />
